@@ -1,0 +1,112 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri Oct 14 12:23:39 IST 2022
+  Author:  Sabapathy
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELFileToJMS"
+               targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FileToJMS/BPELFileToJMS"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FileToJMS/BPELFileToJMS"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/file/SOASampleAppln/SOABPEL_FileToJMS/StudentFilePollerSvc"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/jms/SOASampleAppln/SOABPEL_FileToJMS/StudentJMSSvc"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:ns3="http://FileAdapter.com/StudentFilePollerSvc" xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns4="http://www.example.org">
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/file/SOASampleAppln/SOABPEL_FileToJMS/StudentFilePollerSvc"
+          location="../WSDLs/StudentFilePollerSvc.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"
+          ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="StudentFilePollerSvc" partnerLinkType="ns1:Read_plt" myRole="Read_role"/>
+    <partnerLink name="StudentJMSSvc" partnerLinkType="ns2:Produce_Message_plt" partnerRole="Produce_Message_role"/>
+  </partnerLinks>
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="receiveInput_Read_InputVariable" messageType="ns1:Read_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELFileToJMS.wsdl) -->
+    <receive name="receiveInput" partnerLink="StudentFilePollerSvc" portType="ns1:Read_ptt" operation="Read"
+             variable="receiveInput_Read_InputVariable" createInstance="yes"/>
+    <forEach parallel="no" counterName="counter" name="ForEachLoop">
+      <startCounterValue expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">1</startCounterValue>
+      <finalCounterValue expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">count($receiveInput_Read_InputVariable.body/ns3:Student)</finalCounterValue>
+      <scope name="Scope1">
+        <variables>
+          <variable name="InvokeStudentJMS_Produce_InputVariable" messageType="ns2:Produce_Message_msg"/>
+        </variables>
+        <sequence name="Sequence1">
+          <!--<assign name="AssignStudentJMSRequest">
+            <copy>
+              <from>$receiveInput_Read_InputVariable.body/ns3:Student[$counter]</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeStudentJMS_Produce_Message_InputVariable.body/ns3:Student</to>
+            </copy>
+          </assign>-->
+          <assign name="AssignJMSRequest">
+            <copy>
+              <from>$receiveInput_Read_InputVariable.body/ns3:Student[$counter]/ns3:sudent_id</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeStudentJMS_Produce_InputVariable.body/ns4:student_id</to>
+            </copy>
+            <copy>
+              <from>$receiveInput_Read_InputVariable.body/ns3:Student[$counter]/ns3:student_name</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeStudentJMS_Produce_InputVariable.body/ns4:student_name</to>
+            </copy>
+            <copy>
+              <from>$receiveInput_Read_InputVariable.body/ns3:Student[$counter]/ns3:student_class</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeStudentJMS_Produce_InputVariable.body/ns4:student_class</to>
+            </copy>
+            <copy>
+              <from>$receiveInput_Read_InputVariable.body/ns3:Student[$counter]/ns3:student_school</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeStudentJMS_Produce_InputVariable.body/ns4:student_school</to>
+            </copy>
+            <copy>
+              <from>$receiveInput_Read_InputVariable.body/ns3:Student[$counter]/ns3:student_grad_status</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeStudentJMS_Produce_InputVariable.body/ns4:student_grad_status</to>
+            </copy>
+          </assign>
+          <invoke name="InvokeStudentJMS" partnerLink="StudentJMSSvc" portType="ns2:Produce_Message_ptt"
+                  operation="Produce_Message" inputVariable="InvokeStudentJMS_Produce_InputVariable"
+                  bpelx:invokeAsDetail="no"/>
+        </sequence>
+      </scope>
+    </forEach>
+  </sequence>
+</process>
