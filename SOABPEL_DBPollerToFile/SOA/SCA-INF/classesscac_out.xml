@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc>/ns:composite/ns:wire/ns:target.uri[.='BPEL_DBPollerToFile/DBPollerStudentSvc']</loc>
+      <line>50</line>
+      <col>17</col>
+      <file>C:\Saba\workspace\osb\SOASampleAppln\SOABPEL_DBPollerToFile\SOA\composite.xml</file>
+      <name>C:\Saba\workspace\osb\SOASampleAppln\SOABPEL_DBPollerToFile\SOA\composite.xml</name>
+      <fix/>
+      <msg>Schema validation failed with exception "null"</msg>
+   </Fault>
+</Faults>
