@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc>/ns:composite/ns:reference[@name='FlatMaintenanceTotalSvc']</loc>
+      <line>45</line>
+      <col>118</col>
+      <file>C:\Saba\workspace\osb\SOASampleAppln\SOABPEL_CorrSet_FlatMaintenance\SOA\composite.xml</file>
+      <name>C:\Saba\workspace\osb\SOASampleAppln\SOABPEL_CorrSet_FlatMaintenance\SOA\composite.xml</name>
+      <fix/>
+      <msg>Failed to Find Binding "FlatMaintenanceTotalSvc":"{http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal}BPEL_CorrSet_FlatMaintenanceTotal_pt" in WSDL Manager</msg>
+   </Fault>
+</Faults>

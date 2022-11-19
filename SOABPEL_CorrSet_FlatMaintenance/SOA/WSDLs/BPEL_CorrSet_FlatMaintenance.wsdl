@@ -1,0 +1,54 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_CorrSet_FlatMaintenance"
+     targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:cor="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance/correlationset"
+     xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+    >
+    <plnk:partnerLinkType name="BPEL_CorrSet_FlatMaintenance">
+        <plnk:role name="BPEL_CorrSet_FlatMaintenanceProvider" portType="client:BPEL_CorrSet_FlatMaintenance"/>
+        <plnk:role name="BPEL_CorrSet_FlatMaintenanceRequester" portType="client:BPEL_CorrSet_FlatMaintenanceCallback"/>
+    </plnk:partnerLinkType>
+    <vprop:propertyAlias propertyName="cor:flatId" xmlns:ns1="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+         messageType="ns1:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage" part="payload">
+        <vprop:query>ns1:FT_FlatNo</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="cor:flatId" xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+         messageType="client:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage" part="payload">
+        <vprop:query>client:FMTR_FlatNo</vprop:query>
+    </vprop:propertyAlias>
+    <wsdl:import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance/correlationset"
+         location="BPEL_CorrSet_FlatMaintenance_properties.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+                 schemaLocation="../Schemas/BPEL_CorrSet_FlatMaintenance.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_CorrSet_FlatMaintenanceRequestMessage">
+        <wsdl:part name="payload" element="client:flatMaintenanceRequest"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_CorrSet_FlatMaintenanceTotalRequestMessage">
+        <wsdl:part name="payload" element="client:flatMaintenanceTotalRequest"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_CorrSet_FlatMaintenanceResponseMessage">
+        <wsdl:part name="payload" element="client:flatMaintenanceResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_CorrSet_FlatMaintenance">
+        <wsdl:operation name="flatMaintenanceRequest">
+            <wsdl:input message="client:BPEL_CorrSet_FlatMaintenanceRequestMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="flatMaintenanceTotalRequest">
+            <wsdl:input message="client:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="BPEL_CorrSet_FlatMaintenanceCallback">
+        <wsdl:operation name="flatMaintenanceResponse">
+            <wsdl:input message="client:BPEL_CorrSet_FlatMaintenanceResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

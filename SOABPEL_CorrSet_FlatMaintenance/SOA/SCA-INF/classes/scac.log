@@ -1,0 +1,25 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+2022-10-22 17:28:12.417/3.441 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Loaded operational configuration from "jar:file:/C:/Saba/soa12c22/MW/coherence/lib/coherence.jar!/tangosol-coherence.xml"
+2022-10-22 17:28:12.482/3.506 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Loaded operational overrides from "jar:file:/C:/Saba/soa12c22/MW/coherence/lib/coherence.jar!/tangosol-coherence-override-dev.xml"
+2022-10-22 17:28:12.485/3.509 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "/tangosol-coherence-override.xml" is not specified
+2022-10-22 17:28:12.490/3.514 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "cache-factory-config.xml" is not specified
+2022-10-22 17:28:12.492/3.517 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "cache-factory-builder-config.xml" is not specified
+2022-10-22 17:28:12.495/3.519 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "/custom-mbeans.xml" is not specified
+
+Oracle Coherence Version 12.2.1.4.0 Build 74888
+ Grid Edition: Development mode
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+2022-10-22 17:28:14.006/5.030 Oracle Coherence GE 12.2.1.4.0 <Info> (thread=main, member=n/a): The cluster name has not been configured, a value of "Sabapathy's cluster" has been automatically generated
+2022-10-22 17:28:15.119/6.144 Oracle Coherence GE 12.2.1.4.0 <Info> (thread=main, member=n/a): Created cache factory com.tangosol.net.ExtensibleConfigurableCacheFactory
+Oct 22, 2022 5:28:15 PM oracle.soa.scac.ValidateComposite loadWSDLs
+WARNING: Validating WSDLs from WSDLManager....  with option UseSoaInfraMds:false
+Oct 22, 2022 5:28:15 PM oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+WARNING: Failed to load WSDL from https://localhost:7112/soa-infra/services/default/SOABPEL_CorrSet_FlatalMaintenanceTotal/bpel_corrset_flatmaintenancetotal_client_ep?WSDL due to: Error in getting XML input stream: https://localhost:7112/soa-infra/services/default/SOABPEL_CorrSet_FlatalMaintenanceTotal/bpel_corrset_flatmaintenancetotal_client_ep?WSDL: java.security.cert.CertificateException: No name matching localhost foundWill retry to load
+SEVERE:  failed to parse wsdl from https://localhost:7112/soa-infra/services/default/SOABPEL_CorrSet_FlatalMaintenanceTotal/bpel_corrset_flatmaintenancetotal_client_ep?WSDL : 
+
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option PermSize=32m; support was removed in 8.0
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=256m; support was removed in 8.0

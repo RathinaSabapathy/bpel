@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions
+     name="BPEL_CorrSet_FlatMaintenance"
+     targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:cor="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance/correlationset"
+     xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <wsdl:documentation>
+        <abstractWSDL>http://localhost:7111/soa-infra/services/default/SOABPEL_CorrSet_FlatMaintenance!1.0/WSDLs/BPEL_CorrSet_FlatMaintenance.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="BPEL_CorrSet_FlatMaintenance">
+        <plnk:role name="BPEL_CorrSet_FlatMaintenanceRequester" portType="client:BPEL_CorrSet_FlatMaintenanceCallback"/>
+        <plnk:role name="BPEL_CorrSet_FlatMaintenanceProvider" portType="client:BPEL_CorrSet_FlatMaintenance"/>
+    </plnk:partnerLinkType>
+    <vprop:propertyAlias xmlns:ns1="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+         propertyName="cor:flatId" messageType="ns1:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage"
+         part="payload">
+        <vprop:query>ns1:FT_FlatNo</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+         propertyName="cor:flatId" messageType="client:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage"
+         part="payload">
+        <vprop:query>client:FMTR_FlatNo</vprop:query>
+    </vprop:propertyAlias>
+<wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="wsaddr_policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+   <wsaw:UsingAddressing xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"/>
+</wsp:Policy>    <wsdl:import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance/correlationset"
+         location="http://localhost:7111/soa-infra/services/default/SOABPEL_CorrSet_FlatMaintenance/bpel_corrset_flatmaintenance_client_ep?WSDL=BPEL_CorrSet_FlatMaintenance_properties.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+                 schemaLocation="../Schemas/BPEL_CorrSet_FlatMaintenance.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_CorrSet_FlatMaintenanceRequestMessage">
+        <wsdl:part name="payload" element="client:flatMaintenanceRequest"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_CorrSet_FlatMaintenanceTotalRequestMessage">
+        <wsdl:part name="payload" element="client:flatMaintenanceTotalRequest"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_CorrSet_FlatMaintenanceResponseMessage">
+        <wsdl:part name="payload" element="client:flatMaintenanceResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_CorrSet_FlatMaintenance">
+        <wsdl:operation name="flatMaintenanceRequest">
+            <wsdl:input message="client:BPEL_CorrSet_FlatMaintenanceRequestMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="flatMaintenanceTotalRequest">
+            <wsdl:input message="client:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="BPEL_CorrSet_FlatMaintenanceCallback">
+        <wsdl:operation name="flatMaintenanceResponse">
+            <wsdl:input message="client:BPEL_CorrSet_FlatMaintenanceResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BPEL_CorrSet_FlatMaintenanceBinding" type="client:BPEL_CorrSet_FlatMaintenance">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#wsaddr_policy" wsdl:required="false"/>
+        <wsdl:operation name="flatMaintenanceRequest">
+            <soap:operation style="document" soapAction="flatMaintenanceRequest"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="flatMaintenanceTotalRequest">
+            <soap:operation style="document" soapAction="flatMaintenanceTotalRequest"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="BPEL_CorrSet_FlatMaintenanceCallbackBinding" type="client:BPEL_CorrSet_FlatMaintenanceCallback">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="flatMaintenanceResponse">
+            <soap:operation style="document" soapAction="flatMaintenanceResponse"/>
+            <wsdl:input>
+                <soap:body use="literal" namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="bpel_corrset_flatmaintenance_client_ep">
+        <wsdl:port name="BPEL_CorrSet_FlatMaintenance_pt" binding="client:BPEL_CorrSet_FlatMaintenanceBinding">
+            <soap:address location="http://localhost:7111/soa-infra/services/default/SOABPEL_CorrSet_FlatMaintenance/bpel_corrset_flatmaintenance_client_ep"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

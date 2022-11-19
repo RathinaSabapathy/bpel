@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions
+     name="BPEL_CorrSet_FlatMaintenanceTotal"
+     targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <wsdl:documentation>
+        <abstractWSDL>http://localhost:7111/soa-infra/services/default/SOABPEL_CorrSet_FlatalMaintenanceTotal!1.0/WSDLs/BPEL_CorrSet_FlatMaintenanceTotal.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="BPEL_CorrSet_FlatMaintenanceTotal">
+        <plnk:role name="BPEL_CorrSet_FlatMaintenanceTotalProvider" portType="client:BPEL_CorrSet_FlatMaintenanceTotal"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+                 schemaLocation="../Schemas/BPEL_CorrSet_FlatMaintenanceTotal.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_CorrSet_FlatMaintenanceTotalRequestMessage">
+        <wsdl:part name="payload" element="client:flatMaintenanceTotalRequest"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_CorrSet_FlatMaintenanceTotal">
+        <wsdl:operation name="flatMaintenanceTotal">
+            <wsdl:input message="client:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BPEL_CorrSet_FlatMaintenanceTotalBinding" type="client:BPEL_CorrSet_FlatMaintenanceTotal">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="flatMaintenanceTotal">
+            <soap:operation style="document" soapAction="flatMaintenanceTotal"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="bpel_corrset_flatmaintenancetotal_client_ep">
+        <wsdl:port name="BPEL_CorrSet_FlatMaintenanceTotal_pt" binding="client:BPEL_CorrSet_FlatMaintenanceTotalBinding">
+            <soap:address location="http://localhost:7111/soa-infra/services/default/SOABPEL_CorrSet_FlatalMaintenanceTotal/bpel_corrset_flatmaintenancetotal_client_ep"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

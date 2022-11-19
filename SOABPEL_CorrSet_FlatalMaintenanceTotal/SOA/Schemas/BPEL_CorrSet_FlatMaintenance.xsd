@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+     xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="flatMaintenanceRequest">
+        <complexType>
+            <sequence>
+                <element name="FlatNo" type="string"/>
+                <element name="FlatOwner" type="string"/>
+                <element name="CurrentBill" type="decimal"/>
+                <element name="MaintenanceBill" type="decimal"/>
+                <element name="WaterBill" type="decimal"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="flatMaintenanceTotalRequest">
+        <complexType>
+            <sequence>
+                <element name="FMTR_FlatNo" type="string"/>
+                <element name="FMTR_FlatOwner" type="string"/>
+                <element name="FMTR_BillTotal" type="decimal"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="flatMaintenanceResponse">
+        <complexType>
+            <sequence>
+                <element name="FlatNo" type="string"/>
+                <element name="FlatOwner" type="string"/>
+                <element name="BillTotal" type="decimal"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

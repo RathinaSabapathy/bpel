@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+     xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="flatMaintenanceTotalRequest">
+        <complexType>
+            <sequence>
+                <element name="FT_FlatNo" type="string"/>
+                <element name="FT_FlatOwner" type="string"/>
+                <element name="FT_CurrentBill" type="decimal"/>
+                <element name="FT_MaintenanceBill" type="decimal"/>
+                <element name="FT_WaterBill" type="decimal"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

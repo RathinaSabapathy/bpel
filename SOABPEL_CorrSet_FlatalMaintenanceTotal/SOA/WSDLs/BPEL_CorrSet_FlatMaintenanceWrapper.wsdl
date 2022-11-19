@@ -1,0 +1,16 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_CorrSet_FlatMaintenance"
+     targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="FlatMaintenanceReference">
+        <plnk:role name="BPEL_CorrSet_FlatMaintenance" portType="client:BPEL_CorrSet_FlatMaintenance"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+         location="http://localhost:7111/soa-infra/services/default/SOABPEL_CorrSet_FlatMaintenance!1.0/WSDLs/BPEL_CorrSet_FlatMaintenance.wsdl"/>
+</wsdl:definitions>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
+    <dgm:gService name="bpel_corrset_flatmaintenance_client_ep">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="41" width="137" height="108">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="11" Y="34" width="156" height="122">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:outputPort name="bpel_corrset_flatmaintenance_client_ep" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance#wsdl.interface(BPEL_CorrSet_FlatMaintenance)" callbackInterface="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance#wsdl.interface(BPEL_CorrSet_FlatMaintenanceCallback)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="20" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>flatMaintenanceRequest</dgm:item>
+            <dgm:item>flatMaintenanceTotalRequest</dgm:item>
+            <dgm:item>flatMaintenanceResponse</dgm:item>
+        </dgm:operations>
+    </dgm:gService>
+    <dgm:gReference name="FlatMaintenanceTotalSvc">
+        <dgm:body borderWidth="2" arcRad="20" X="590" Y="41" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="580" Y="34" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="FlatMaintenanceTotalSvc" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal#wsdl.interface(BPEL_CorrSet_FlatMaintenanceTotal)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/soap_service_20x20.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:operations>
+            <dgm:item>flatMaintenanceTotal</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
+    <dgm:gComponent name="BPEL_CorrSet_FlatMaintenance">
+        <dgm:body borderWidth="2" arcRad="20" X="309" Y="26" width="130" height="61">
+            <dgm:borderColor r="69" g="113" b="140"/>
+            <dgm:lightBgColor r="166" g="208" b="230"/>
+            <dgm:darkBgColor r="99" g="162" b="201"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="299" Y="19" width="150" height="77">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="bpel_corrset_flatmaintenance_client" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance#wsdl.interface(BPEL_CorrSet_FlatMaintenance)" callbackInterface="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance#wsdl.interface(BPEL_CorrSet_FlatMaintenanceCallback)"/>
+        <dgm:outputPort name="FlatMaintenanceTotalSvc" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal#wsdl.interface(BPEL_CorrSet_FlatMaintenanceTotal)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
+    </dgm:gComponent>
+    <dgm:gWireLink source="bpel_corrset_flatmaintenance_client_ep" target="BPEL_CorrSet_FlatMaintenance/bpel_corrset_flatmaintenance_client" width="2">
+        <dgm:gSegment X1="168" Y1="51" X2="299" Y2="51"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="BPEL_CorrSet_FlatMaintenance/FlatMaintenanceTotalSvc" target="FlatMaintenanceTotalSvc" width="2">
+        <dgm:gSegment X1="449" Y1="51" X2="580" Y2="51"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+</dgm:gDiagram>

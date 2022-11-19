@@ -1,0 +1,93 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Sat Oct 22 13:17:53 IST 2022
+  Author:  Sabapathy
+  Type: BPEL 2.0 Process
+  Purpose: One Way BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_CorrSet_FlatMaintenanceTotal"
+               targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatMaintenance"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CorrSet_FlatalMaintenanceTotal/BPEL_CorrSet_FlatMaintenanceTotal" location="../WSDLs/BPEL_CorrSet_FlatMaintenanceTotal.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      PARTNERLINKS                                                      
+      List of services participating in this BPEL process               
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_corrset_flatmaintenancetotal_client" partnerLinkType="client:BPEL_CorrSet_FlatMaintenanceTotal" myRole="BPEL_CorrSet_FlatMaintenanceTotalProvider"/>
+    <partnerLink name="FlatMaintenanceReference" partnerLinkType="ns1:FlatMaintenanceReference"
+                 partnerRole="BPEL_CorrSet_FlatMaintenance" myRole="BPEL_CorrSet_FlatMaintenance"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage"/>
+    <variable name="InvokeFlatMaintenance_flatMaintenanceTotalRequest_InputVariable"
+              messageType="ns1:BPEL_CorrSet_FlatMaintenanceTotalRequestMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_CorrSet_FlatMaintenanceTotal.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpel_corrset_flatmaintenancetotal_client" portType="client:BPEL_CorrSet_FlatMaintenanceTotal"
+             operation="flatMaintenanceTotal" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignFlatMaintenanceReq">
+      <copy>
+        <from>$inputVariable.payload/client:FT_FlatNo</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFlatMaintenance_flatMaintenanceTotalRequest_InputVariable.payload/ns1:FMTR_FlatNo</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:FT_FlatOwner</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFlatMaintenance_flatMaintenanceTotalRequest_InputVariable.payload/ns1:FMTR_FlatOwner</to>
+      </copy>
+      <copy>
+        <from> $inputVariable.payload/client:FT_CurrentBill + $inputVariable.payload/client:FT_MaintenanceBill + $inputVariable.payload/client:FT_WaterBill</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFlatMaintenance_flatMaintenanceTotalRequest_InputVariable.payload/ns1:FMTR_BillTotal</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeFlatMaintenance" partnerLink="FlatMaintenanceReference"
+            portType="ns1:BPEL_CorrSet_FlatMaintenance" operation="flatMaintenanceTotalRequest"
+            inputVariable="InvokeFlatMaintenance_flatMaintenanceTotalRequest_InputVariable" bpelx:invokeAsDetail="no"/>
+  </sequence>
+</process>
