@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+        xmlns:emp="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_InvokeREST/SOABEL_REST"
+	targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_InvokeREST/SOABEL_REST"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="input" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse" type="emp:employee"/>
+	
+        <complexType name="employee">
+         <sequence>
+            <element name="status" type="string"/>
+            <element name="data">
+               <complexType>
+                  <sequence>
+                     <element name="id" type="integer"/>
+                     <element name="employee_name" type="string"/>
+                     <element name="employee_salary" type="integer"/>
+                     <element name="employee_age" type="integer"/>
+                     <element name="profile_image"/>
+                  </sequence>
+               </complexType>
+            </element>
+            <element name="message" type="string"/>
+         </sequence>
+      </complexType>
+   
+</schema>

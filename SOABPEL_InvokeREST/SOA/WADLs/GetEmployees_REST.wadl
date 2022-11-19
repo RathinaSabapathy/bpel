@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?><application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://TargetNamespace.com/EmployeeREST_getEmployee_request" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="EmployeeREST">EmployeeService</doc>
+   <grammars>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import schemaLocation="https://localhost:7112/soa-infra/services/default/SOABPEL_ExposeREST!1.0/Schemas/EmployeeRequest.xsd" namespace="http://TargetNamespace.com/EmployeeREST_getEmployee_request"/>
+        </xsd:schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:include schemaLocation="https://localhost:7112/soa-infra/services/default/SOABPEL_ExposeREST!1.0/Schemas/EmployeeResponse.xsd"/>
+        </xsd:schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:include schemaLocation="https://localhost:7112/soa-infra/services/default/SOABPEL_ExposeREST!1.0/Schemas/EmployeesFault.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources base="https://localhost:7112/soa-infra/resources/default/SOABPEL_ExposeREST!1.0/EmployeeREST">
+      <resource path="/emp">
+         <method name="GET" soa:wsdlOperation="getEmployee">
+            <request xmlns:pns="http://TargetNamespace.com/EmployeeREST_getEmployee_request" soa:paramElement="pns:employee">
+               <param name="empId" style="query" soa:expression="$msg.request/tns:empId" type="xsd:string"/>
+            </request>
+            <response status="200">
+               <ns0:representation xmlns="" xmlns:ns0="http://wadl.dev.java.net/2009/02" mediaType="application/json" element="employee"/>
+            </response>
+            <response status="400" soa:wsdlFaultName="fault1">
+               <ns0:representation xmlns="" xmlns:ns0="http://wadl.dev.java.net/2009/02" mediaType="application/json" element="exception"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>

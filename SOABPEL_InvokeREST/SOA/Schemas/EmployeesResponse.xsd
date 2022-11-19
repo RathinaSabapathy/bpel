@@ -1,0 +1,26 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" nxsd:encoding="US-ASCII">
+   <xsd:element name="employee">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="status" type="xsd:string"/>
+            <xsd:element name="data">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="id" type="xsd:integer"/>
+                     <xsd:element name="employee_name" type="xsd:string"/>
+                     <xsd:element name="employee_salary" type="xsd:integer"/>
+                     <xsd:element name="employee_age" type="xsd:integer"/>
+                     <xsd:element name="profile_image"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="message" type="xsd:string"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+<xsd:annotation>
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>
