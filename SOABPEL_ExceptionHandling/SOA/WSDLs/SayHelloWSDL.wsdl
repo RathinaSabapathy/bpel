@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<WL5G3N0:definitions name="SayHelloSvcDefinitions" targetNamespace="http://www.rathinasaba.wordpress.com/ws/sayHello" xmlns="" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://www.rathinasaba.wordpress.com/ws/sayHello" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.rathinasaba.wordpress.com/ws/sayHello" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://www.rathinasaba.wordpress.com/ws/sayHello" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="sayHello">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="sayHelloResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="return" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="sayHello">
+    <WL5G3N0:part element="WL5G3N1:sayHello" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="sayHelloResponse">
+    <WL5G3N0:part element="WL5G3N1:sayHelloResponse" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="SayHello">
+    <WL5G3N0:operation name="sayHello" parameterOrder="parameters">
+      <WL5G3N0:input message="WL5G3N1:sayHello"/>
+      <WL5G3N0:output message="WL5G3N1:sayHelloResponse"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="SayHelloSvcSoapBinding" type="WL5G3N1:SayHello">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="sayHello">
+      <WL5G3N2:operation style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body parts="parameters" use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body parts="parameters" use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="SayHelloSvc">
+    <WL5G3N0:port binding="WL5G3N1:SayHelloSvcSoapBinding" name="SayHelloPort">
+      <WL5G3N2:address location="http://localhost:7111/SayHello/SayHello"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="SayHelloSvcDefinitions"
+     targetNamespace="http://www.rathinasaba.wordpress.com/ws/sayHello"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://www.rathinasaba.wordpress.com/ws/sayHello"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="SayHello_PLT">
+        <plnk:role name="SayHello_Role" portType="ns1:SayHello"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://www.rathinasaba.wordpress.com/ws/sayHello" location="SayHelloWSDL.wsdl"/>
+</wsdl:definitions>

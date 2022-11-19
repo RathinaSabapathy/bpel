@@ -1,0 +1,32 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_ExceptionHandling"
+     targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ExceptionHandling/BPEL_ExceptionHandling"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ExceptionHandling/BPEL_ExceptionHandling"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/bpel/extension"
+    >
+    <plnk:partnerLinkType name="BPEL_ExceptionHandling">
+        <plnk:role name="BPEL_ExceptionHandlingProvider" portType="client:BPEL_ExceptionHandling"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="RuntimeFault.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ExceptionHandling/BPEL_ExceptionHandling"
+                 schemaLocation="../Schemas/BPEL_ExceptionHandling.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_ExceptionHandlingRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_ExceptionHandlingResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_ExceptionHandling">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPEL_ExceptionHandlingRequestMessage"/>
+            <wsdl:output message="client:BPEL_ExceptionHandlingResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
