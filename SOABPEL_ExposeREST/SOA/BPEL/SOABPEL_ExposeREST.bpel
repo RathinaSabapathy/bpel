@@ -1,0 +1,100 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer
+
+  Created: Tue Jul 19 16:29:37 IST 2022
+  Author:  Sabapathy
+  Type: BPEL 2.0 Process
+  Purpose: Empty BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="SOABPEL_ExposeREST"
+               targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ExposeREST"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ExposeREST"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+               xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ExposeREST/EmployeeREST"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/SOASampleAppln/SOABPEL_ExposeREST/EmployeesDBService"
+         xmlns:ns3="http://TargetNamespace.com/EmployeeREST_getEmployee_request"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/EmployeesDBService"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="http://xmlns.oracle.com/soa/designer">
+
+  <!--
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC
+     Set of activities coordinating the flow of messages across the
+     services integrated within this business process
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ExposeREST/EmployeeREST"
+          location="../WSDLs/EmployeeREST.wsdl" importType="http://schemas.xmlsoap.org/wsdl/" ui:processWSDL="true"/>
+  <partnerLinks>
+    <partnerLink name="EmployeeREST" partnerLinkType="ns1:EmployeeREST" myRole="EmployeeRESTProvider"/>
+    <partnerLink name="EmployeesDBService" partnerLinkType="ns2:EmployeesDBService_plt"
+                 partnerRole="EmployeesDBService_role"/>
+  </partnerLinks>
+  <variables>
+    <variable name="InputVariable" messageType="ns1:getEmployee_inputMessage"/>
+    <variable name="OutputVariable" messageType="ns1:getEmployee_outputMessage"/>
+    <variable name="Invoke_EmployeesDBServiceSelect_InputVariable"
+              messageType="ns2:EmployeesDBServiceSelect_inputParameters"/>
+    <variable name="Invoke_EmployeesDBServiceSelect_OutputVariable" messageType="ns2:EmployeesTgtCollection_msg"/>
+  </variables>
+  <sequence name="main">
+    <receive name="receive" createInstance="yes" partnerLink="EmployeeREST" portType="ns1:EmployeeREST_ptt"
+             operation="getEmployee" variable="InputVariable"/>
+    <assign name="Assign_Request">
+      <copy>
+        <from>$InputVariable.request/ns3:empId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_EmployeesDBServiceSelect_InputVariable.EmployeesDBServiceSelect_inputParameters/ns4:empId</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke_DBEmpService" partnerLink="EmployeesDBService"
+            portType="ns2:EmployeesDBService_ptt" operation="EmployeesDBServiceSelect"
+            inputVariable="Invoke_EmployeesDBServiceSelect_InputVariable"
+            outputVariable="Invoke_EmployeesDBServiceSelect_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="Assign_Response">
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:employeeId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/empId</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:firstName</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/firstName</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:lastName</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/lastName</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:email</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/email</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:phoneNumber</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/phone</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:hireDate</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/hiredate</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:salary</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/salary</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:commissionPct</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/commission</to>
+      </copy>
+      <copy>
+        <from>$Invoke_EmployeesDBServiceSelect_OutputVariable.EmployeesTgtCollection/ns4:EmployeesTgt/ns4:designation</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$OutputVariable.reply/designation</to>
+      </copy>
+    </assign>
+    <reply name="reply" partnerLink="EmployeeREST" variable="OutputVariable" portType="ns1:EmployeeREST_ptt"
+           operation="getEmployee"/>
+  </sequence>
+</process>

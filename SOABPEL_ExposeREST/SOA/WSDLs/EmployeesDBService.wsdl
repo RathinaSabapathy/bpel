@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="EmployeesDBService"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SOASampleAppln/SOABPEL_ExposeREST/EmployeesDBService"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/SOASampleAppln/SOABPEL_ExposeREST/EmployeesDBService"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/EmployeesDBService"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="EmployeesDBService_plt" >
+    <plt:role name="EmployeesDBService_role" >
+      <plt:portType name="tns:EmployeesDBService_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/EmployeesDBService" schemaLocation="../Schemas/EmployeesDBService_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="EmployeesDBServiceSelect_inputParameters">
+        <wsdl:part name="EmployeesDBServiceSelect_inputParameters" element="top:EmployeesDBServiceSelect_empIdInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="EmployeesTgtCollection_msg">
+        <wsdl:part name="EmployeesTgtCollection" element="top:EmployeesTgtCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="EmployeesDBService_ptt">
+        <wsdl:operation name="EmployeesDBServiceSelect">
+            <wsdl:input message="tns:EmployeesDBServiceSelect_inputParameters"/>
+            <wsdl:output message="tns:EmployeesTgtCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

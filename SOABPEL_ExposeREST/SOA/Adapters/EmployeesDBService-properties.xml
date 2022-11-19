@@ -1,0 +1,45 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+   <entry key="root_descriptor_alias">EMPLOYEES_TGT</entry>
+   <entry key="EMPLOYEES_TGT.EMPLOYEE_ID:db_column_type">NUMBER</entry>
+   <entry key="EMPLOYEES_TGT.EMPLOYEE_ID:db_column_not_null">true</entry>
+   <entry key="EMPLOYEES_TGT.DESIGNATION:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.EMAIL:db_column_size">25</entry>
+   <entry key="EMPLOYEES_TGT:db_column_8">DESIGNATION</entry>
+   <entry key="EMPLOYEES_TGT.COMMISSION_PCT:db_column_scale">0</entry>
+   <entry key="EMPLOYEES_TGT:db_column_7">COMMISSION_PCT</entry>
+   <entry key="EMPLOYEES_TGT.FIRST_NAME:db_column_size">20</entry>
+   <entry key="EMPLOYEES_TGT:db_column_6">SALARY</entry>
+   <entry key="EMPLOYEES_TGT:db_column_5">HIRE_DATE</entry>
+   <entry key="EMPLOYEES_TGT:db_column_4">PHONE_NUMBER</entry>
+   <entry key="EMPLOYEES_TGT.HIRE_DATE:db_column_type">DATE</entry>
+   <entry key="EMPLOYEES_TGT:db_column_3">EMAIL</entry>
+   <entry key="EMPLOYEES_TGT:db_column_2">LAST_NAME</entry>
+   <entry key="EMPLOYEES_TGT:db_column_1">FIRST_NAME</entry>
+   <entry key="EMPLOYEES_TGT:db_column_0">EMPLOYEE_ID</entry>
+   <entry key="EMPLOYEES_TGT.EMPLOYEE_ID:db_column_scale">0</entry>
+   <entry key="EMPLOYEES_TGT.COMMISSION_PCT:db_column_type">NUMBER</entry>
+   <entry key="EMPLOYEES_TGT.SALARY:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.COMMISSION_PCT:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.HIRE_DATE:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.PHONE_NUMBER:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.SALARY:db_column_precision">8</entry>
+   <entry key="EMPLOYEES_TGT.DESIGNATION:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEES_TGT.SALARY:db_column_type">NUMBER</entry>
+   <entry key="EMPLOYEES_TGT.DESIGNATION:db_column_size">25</entry>
+   <entry key="return_single_result_set">false</entry>
+   <entry key="EMPLOYEES_TGT:db_table_type">TABLE</entry>
+   <entry key="EMPLOYEES_TGT.LAST_NAME:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEES_TGT.EMAIL:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.PHONE_NUMBER:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEES_TGT.LAST_NAME:db_column_size">25</entry>
+   <entry key="EMPLOYEES_TGT.EMPLOYEE_ID:db_column_precision">6</entry>
+   <entry key="EMPLOYEES_TGT.SALARY:db_column_scale">2</entry>
+   <entry key="EMPLOYEES_TGT.COMMISSION_PCT:db_column_precision">38</entry>
+   <entry key="EMPLOYEES_TGT.EMAIL:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEES_TGT.PHONE_NUMBER:db_column_size">20</entry>
+   <entry key="EMPLOYEES_TGT.FIRST_NAME:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.LAST_NAME:db_column_not_null">false</entry>
+   <entry key="EMPLOYEES_TGT.FIRST_NAME:db_column_type">VARCHAR2</entry>
+</properties>
