@@ -1,0 +1,14 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:emp="http://www.example.org"
+            targetNamespace="http://www.example.org" elementFormDefault="qualified">
+   
+  <complexType name="employee">
+    <sequence>
+      <element name="firstName" type="string"/>
+      <element name="lastName" type="string"/>
+      <element name="address" type="string"/>
+      <element name="city" type="string"/>
+      <element name="state" type="string"/>
+      <element name="country" type="string"/>
+    </sequence>
+  </complexType>
+</schema>

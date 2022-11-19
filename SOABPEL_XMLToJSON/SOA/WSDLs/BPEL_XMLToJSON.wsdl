@@ -1,0 +1,33 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_XMLToJSON"
+     targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_XMLToJSON"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_XMLToJSON"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://TargetNamespace.com/ServiceName"
+    >
+    <plnk:partnerLinkType name="BPEL_XMLToJSON">
+        <plnk:role name="BPEL_XMLToJSONProvider" portType="client:BPEL_XMLToJSON"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_XMLToJSON" schemaLocation="../Schemas/BPEL_XMLToJSON.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/ServiceName" schemaLocation="../Schemas/nxsd_employee.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_XMLToJSONRequestMessage">
+        <wsdl:part name="payload" element="client:employee"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_XMLToJSONResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_XMLToJSON">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPEL_XMLToJSONRequestMessage"/>
+            <wsdl:output message="client:BPEL_XMLToJSONResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
