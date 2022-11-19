@@ -1,0 +1,150 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Sat Oct 29 17:43:35 IST 2022
+  Author:  Sabapathy
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_EncoderDecoder"
+               targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_Base64EncoderDecoder/BPEL_EncoderDecoder"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_Base64EncoderDecoder/BPEL_EncoderDecoder"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_Base64EncoderDecoder/BPEL_EncoderDecoder" location="../WSDLs/BPEL_EncoderDecoder.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_encoderdecoder_client" partnerLinkType="client:BPEL_EncoderDecoder" myRole="BPEL_EncoderDecoderProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_EncoderDecoderRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPEL_EncoderDecoderResponseMessage"/>
+    <variable name="ReplyWithResponse_process_OutputVariable" messageType="client:BPEL_EncoderDecoderResponseMessage"/>
+    <variable name="outputStr" type="xsd:string"/>
+    <variable name="inputStr" type="xsd:string"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_EncoderDecoder.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpel_encoderdecoder_client" portType="client:BPEL_EncoderDecoder" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignInput">
+      <copy>
+        <from>$inputVariable.payload/client:input</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$inputStr</to>
+      </copy>
+    </assign>
+    <if name="IfActionIsEncode">
+      <documentation>
+        <![CDATA[Encode]]>
+      </documentation>
+      <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$inputVariable.payload/client:action = 'Encode'</condition>
+      <extensionActivity>
+        <bpelx:exec name="JavaEmbedding_EncodeInput">
+          <![CDATA[addAuditTrailEntry("Encoder");   
+try{   
+java.lang.String input = (java.lang.String)getVariableData("inputStr");     
+addAuditTrailEntry("input for encoding="+input);     
+oracle.soa.common.util.Base64Encoder encoder = new oracle.soa.common.util.Base64Encoder();         
+java.lang.String encoded = null;        
+encoded = encoder.encode(input);     
+addAuditTrailEntry("encoded input"+encoded);     
+setVariableData("outputStr",encoded);     
+} catch (Exception e) {     
+  addAuditTrailEntry("Encoder exception: "+e.getMessage());     
+}]]>
+        </bpelx:exec>
+      </extensionActivity>
+      <elseif>
+        <documentation>
+          <![CDATA[Decode]]>
+        </documentation>
+        <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$inputVariable.payload/client:action = 'Decode'</condition>
+        <extensionActivity>
+          <bpelx:exec name="JavaEmbedding_DecodeInput">
+            <![CDATA[addAuditTrailEntry("Decoder");   
+try{   
+ java.lang.String input = (java.lang.String)getVariableData("inputStr"); 
+addAuditTrailEntry("input for decoding="+input);     
+oracle.soa.common.util.Base64Decoder decoder = new oracle.soa.common.util.Base64Decoder();         
+java.lang.String decoded = null;        
+decoded = decoder.decode(input);     
+addAuditTrailEntry("decoded input"+decoded);     
+setVariableData("outputStr",decoded);     
+} catch (Exception e) {     
+  addAuditTrailEntry("Decoder exception: "+e.getMessage());     
+}]]>
+          </bpelx:exec>
+        </extensionActivity>
+      </elseif>
+      <else>
+        <documentation>
+          <![CDATA[select action]]>
+        </documentation>
+        <sequence name="Sequence1">
+          <assign name="AssignResponse">
+            <copy>
+              <from>'Provide the correct action Encode or Decode'</from>
+              <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyWithResponse_process_OutputVariable.payload/client:result</to>
+            </copy>
+          </assign>
+          <reply name="ReplyWithResponse" partnerLink="bpel_encoderdecoder_client"
+                 variable="ReplyWithResponse_process_OutputVariable" portType="client:BPEL_EncoderDecoder"
+                 operation="process"/>
+        </sequence>
+      </else>
+    </if>
+    <assign name="AssignResponse">
+      <copy>
+        <from>$outputStr</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:result</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpel_encoderdecoder_client" portType="client:BPEL_EncoderDecoder" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>
