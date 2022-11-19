@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<library name="ADF Library Dependencies" id="oracle..adf-library-dependencies" deployed="true" locked="true" xmlns="http://xmlns.oracle.com/jdeveloper/1013/manifest-libraries">
+  <description/>
+  <classpath>../../../../soa12c22/MW/oracle/work/jdevhome/oracle_common/modules/oracle.jps_12.1.2/jps-mbeans.jar</classpath>
+  <classpath>../../../../soa12c22/MW/oracle_common/lib/ess-sec.jar</classpath>
+  <classpath>../../../../soa12c22/MW/wls10/wls_wlw/wlserver_10.3/server/lib/wlclient.jar</classpath>
+</library>

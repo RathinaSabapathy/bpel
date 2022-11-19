@@ -1,0 +1,20 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+2022-10-29 13:07:39.590/2.552 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Loaded operational configuration from "jar:file:/C:/Saba/soa12c22/MW/coherence/lib/coherence.jar!/tangosol-coherence.xml"
+2022-10-29 13:07:39.647/2.609 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Loaded operational overrides from "jar:file:/C:/Saba/soa12c22/MW/coherence/lib/coherence.jar!/tangosol-coherence-override-dev.xml"
+2022-10-29 13:07:39.649/2.612 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "/tangosol-coherence-override.xml" is not specified
+2022-10-29 13:07:39.653/2.615 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "cache-factory-config.xml" is not specified
+2022-10-29 13:07:39.654/2.617 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "cache-factory-builder-config.xml" is not specified
+2022-10-29 13:07:39.656/2.618 Oracle Coherence 12.2.1.4.0 <Info> (thread=main, member=n/a): Optional configuration override "/custom-mbeans.xml" is not specified
+
+Oracle Coherence Version 12.2.1.4.0 Build 74888
+ Grid Edition: Development mode
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+2022-10-29 13:07:40.825/3.787 Oracle Coherence GE 12.2.1.4.0 <Info> (thread=main, member=n/a): The cluster name has not been configured, a value of "Sabapathy's cluster" has been automatically generated
+2022-10-29 13:07:41.651/4.614 Oracle Coherence GE 12.2.1.4.0 <Info> (thread=main, member=n/a): Created cache factory com.tangosol.net.ExtensibleConfigurableCacheFactory
+Oct 29, 2022 1:07:42 PM oracle.soa.scac.ValidateComposite loadWSDLs
+WARNING: Validating WSDLs from WSDLManager....  with option UseSoaInfraMds:false
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option PermSize=32m; support was removed in 8.0
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=256m; support was removed in 8.0

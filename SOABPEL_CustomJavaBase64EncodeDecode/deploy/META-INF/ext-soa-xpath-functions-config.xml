@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soa-xpath-functions xmlns="http://xmlns.oracle.com/soa/config/xpath"
+xmlns:utl="http://www.oracle.com/XSL/Transform/java/com.custom.java.encodedecode.CustomEncodeDecodeXpathUtil"
+<function name="utl:base64EncodeDecode">
+ <className>com.custom.java.encodedecode.CustomEncodeDecodeXpathUtil$CustomBase64EncodeDecodeFunction</className>
+ <return type="string"/>
+ <params>
+  <param name="action" type="string"/>
+  <param name="content" type="string"/> 
+ <params>
+ <desc/>
+ <detail>
+<![CDATA[This function to encode and decode.]]>
+</detail>
+</function> 
+</functions>
