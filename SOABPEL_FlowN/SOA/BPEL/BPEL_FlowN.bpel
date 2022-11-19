@@ -1,0 +1,178 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Oct 18 16:44:39 IST 2022
+  Author:  Sabapathy
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_FlowN"
+         targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns1="http://com/sample/customer"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="java:com.sample.customer"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+            location="../Schemas/Utility.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+    <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+            location="../Schemas/BPEL_FlowN.xsd" importType="http://www.w3.org/2001/XMLSchema"/>
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN" location="../WSDLs/BPEL_FlowN.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="bpel_flown_client" partnerLinkType="client:BPEL_FlowN" myRole="BPEL_FlowNProvider" partnerRole="BPEL_FlowNRequester"/>
+        <partnerLink name="CustomerService" partnerLinkType="ns1:CustomerService" partnerRole="CustomerNameService"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:BPEL_FlowNRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:BPEL_FlowNResponseMessage"/>
+        <variable name="customerListVar" element="client:processResponse"/>
+        <variable name="XMLAsStrVar" type="xsd:string"/>
+        <variable name="XMLElementVar" element="client:XMLAsStrVar"/>
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_FlowN.wsdl) -->
+        <receive name="receiveInput" partnerLink="bpel_flown_client" portType="client:BPEL_FlowN" operation="process" variable="inputVariable" createInstance="yes"/>
+        <assign name="AssignXMLasString">
+            <copy>
+                <from>''</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$XMLAsStrVar</to>
+            </copy>
+        </assign>
+        <assign name="AssignInitializeResponse">
+            <copy>
+                <from>'test1'</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:firstName</to>
+            </copy>
+            <copy>
+                <from>'test2'</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:lastName</to>
+            </copy>
+        </assign>
+        <assign name="Assign1">
+            <copy>
+                <from>'test'</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$customerListVar/client:customer/client:firstName</to>
+            </copy>
+            <copy>
+                <from>'test'</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$customerListVar/client:customer/client:lastName</to>
+            </copy>
+        </assign>
+        <forEach parallel="yes" counterName="counter" name="ForEachCustomer">
+            <startCounterValue expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">1</startCounterValue>
+            <finalCounterValue expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">count($inputVariable.payload/client:customerIdList/client:customerId)</finalCounterValue>
+            <scope name="Scope1">
+                <variables>
+                    <variable name="invokeCustomer_getCustomerName_InputVariable" messageType="ns1:getCustomerName"/>
+                    <variable name="invokeCustomer_getCustomerName_OutputVariable"
+                              messageType="ns1:getCustomerNameResponse"/>
+                    <variable name="outputVar" messageType="client:BPEL_FlowNResponseMessage"/>
+                </variables>
+                <sequence name="Sequence1">
+                    <assign name="AssignCustIdRequest">
+                        <copy>
+                            <from>$inputVariable.payload/client:customerIdList/client:customerId[$counter]</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeCustomer_getCustomerName_InputVariable.parameters/ns1:custId</to>
+                        </copy>
+                    </assign>
+                    <invoke name="invokeCustomer" partnerLink="CustomerService" portType="ns1:CustomerNameService"
+                            operation="getCustomerName" inputVariable="invokeCustomer_getCustomerName_InputVariable"
+                            outputVariable="invokeCustomer_getCustomerName_OutputVariable" bpelx:invokeAsDetail="no"/>
+                    <assign name="AssignCustomerResponse">
+                        <copy>
+                            <from>$invokeCustomer_getCustomerName_OutputVariable.parameters/ns1:return/ns2:FirstName</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVar.payload/client:customer/client:firstName</to>
+                        </copy>
+                        <copy>
+                            <from>$invokeCustomer_getCustomerName_OutputVariable.parameters/ns1:return/ns2:LastName</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVar.payload/client:customer/client:lastName</to>
+                        </copy>
+                    </assign>
+                    <if name="IfCounteris1orOtherwise">
+                        <documentation>
+                            <![CDATA[IfCounterValueIs1]]>
+                        </documentation>
+                        <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$counter = 1</condition>
+                        <assign name="AssignResponse">
+                            <copy>
+                                <from>$outputVar.payload/client:customer</from>
+                                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer</to>
+                            </copy>
+                        </assign>
+                        <else>
+                            <assign name="AssignResponse">
+                                <extensionAssignOperation>
+                                    <bpelx:append>
+                                        <bpelx:from>$outputVar.payload/client:customer</bpelx:from>
+                                        <bpelx:to>$outputVariable.payload</bpelx:to>
+                                    </bpelx:append>
+                                </extensionAssignOperation>
+                            </assign>
+                        </else>
+                    </if>
+                    <!--<assign name="AssignXMLStr">
+                        <copy>
+                            <from>concat($XMLAsStrVar,oraext:get-content-as-string($outputVar.payload/client:customer))</from>
+                            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$XMLAsStrVar</to>
+                        </copy>
+                    </assign>-->
+                </sequence>
+            </scope>
+        </forEach>
+        <!--<assign name="AssignOutput">
+            <copy>
+                <from>ora:getChildElement(oraext:parseXML($XMLAsStrVar),1)</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer</to>
+            </copy>
+        </assign>-->
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="bpel_flown_client" portType="client:BPEL_FlowNCallback" operation="processResponse" inputVariable="outputVariable"/>
+    </sequence>
+</process>

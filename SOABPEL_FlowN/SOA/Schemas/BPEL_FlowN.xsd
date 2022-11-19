@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="customerIdList">
+                                  <complexType>
+                                    <sequence>
+                                        <element name="customerId" type="integer" maxOccurs="unbounded"/>
+                                    </sequence>
+                                  </complexType>
+                                </element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="customer" maxOccurs="unbounded">
+                                  <complexType>
+                                      <sequence>
+                                          <element name="firstName" type="string"/>
+                                          <element name="lastName" type="string"/>
+                                      </sequence>
+                                  </complexType>
+                                </element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

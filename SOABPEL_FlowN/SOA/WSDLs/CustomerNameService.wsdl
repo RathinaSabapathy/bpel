@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<WL5G3N0:definitions name="CustomerNameSvcDefinitions" targetNamespace="http://com/sample/customer" xmlns="" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://com/sample/customer" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
+  <WL5G3N0:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://com/sample/customer" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://com/sample/customer" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="java:com.sample.customer"/>
+      <xs:element name="getCustomerName">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="custId" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getCustomerNameResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="return" type="java:CustomerName" xmlns:java="java:com.sample.customer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="java:com.sample.customer" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://com/sample/customer" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="CustomerName">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="FirstName" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="1" name="LastName" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </WL5G3N0:types>
+  <WL5G3N0:message name="getCustomerName">
+    <WL5G3N0:part element="WL5G3N1:getCustomerName" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:message name="getCustomerNameResponse">
+    <WL5G3N0:part element="WL5G3N1:getCustomerNameResponse" name="parameters"/>
+  </WL5G3N0:message>
+  <WL5G3N0:portType name="CustomerNameService">
+    <WL5G3N0:operation name="getCustomerName" parameterOrder="parameters">
+      <WL5G3N0:input message="WL5G3N1:getCustomerName"/>
+      <WL5G3N0:output message="WL5G3N1:getCustomerNameResponse"/>
+    </WL5G3N0:operation>
+  </WL5G3N0:portType>
+  <WL5G3N0:binding name="CustomerNameSvcSoapBinding" type="WL5G3N1:CustomerNameService">
+    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N0:operation name="getCustomerName">
+      <WL5G3N2:operation style="document"/>
+      <WL5G3N0:input>
+        <WL5G3N2:body parts="parameters" use="literal"/>
+      </WL5G3N0:input>
+      <WL5G3N0:output>
+        <WL5G3N2:body parts="parameters" use="literal"/>
+      </WL5G3N0:output>
+    </WL5G3N0:operation>
+  </WL5G3N0:binding>
+  <WL5G3N0:service name="CustomerNameSvc">
+    <WL5G3N0:port binding="WL5G3N1:CustomerNameSvcSoapBinding" name="CustomerNameServiceSoapPort">
+      <WL5G3N2:address location="http://localhost:7111/CustomerSvc/CustomerNameService"/>
+    </WL5G3N0:port>
+  </WL5G3N0:service>
+</WL5G3N0:definitions>

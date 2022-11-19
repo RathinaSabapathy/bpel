@@ -1,0 +1,41 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_FlowN"
+     targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+    >
+    <plnk:partnerLinkType name="BPEL_FlowN">
+        <plnk:role name="BPEL_FlowNProvider" portType="client:BPEL_FlowN"/>
+        <plnk:role name="BPEL_FlowNRequester" portType="client:BPEL_FlowNCallback"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+            <import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+                 schemaLocation="../Schemas/BPEL_FlowN.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+                 schemaLocation="../Schemas/Utility.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_FlowNRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_FlowNResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_FlowN">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPEL_FlowNRequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="BPEL_FlowNCallback">
+        <wsdl:operation name="processResponse">
+            <wsdl:input message="client:BPEL_FlowNResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

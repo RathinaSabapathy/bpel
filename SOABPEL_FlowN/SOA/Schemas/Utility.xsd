@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN"
+            targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_FlowN/BPEL_FlowN" elementFormDefault="qualified">
+        <xsd:element name="XMLAsStrVar">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="customer" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="firstName" type="xsd:string"/>
+                    <xsd:element name="lastName" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+     
+</xsd:schema>
