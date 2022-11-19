@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.oracle.com/SOASampleAppln/BPEL_CallRESTWithBasicAuth"
+        xmlns:cust="http://xmlns.oracle.com/SOASampleAppln/BPEL_CallRESTWithBasicAuth"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="input" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="customer" type="cust:customerType"/>
+			</sequence>
+		</complexType>
+	</element>
+        
+      
+      <complexType name="customerType">
+         <sequence>
+            <element name="address">
+               <complexType>
+                  <sequence>
+                     <element name="city" type="string"/>
+                     <element name="flatNo" type="integer"/>
+                     <element name="pin" type="integer"/>
+                     <element name="state" type="string"/>an
+                     <element name="steet" type="string"/>
+                  </sequence>
+               </complexType>
+            </element>
+            <element name="id" type="integer"/>
+            <element name="marital_status" type="string"/>
+            <element name="phone" type="integer"/>
+         </sequence>
+      </complexType>
+  
+</schema>

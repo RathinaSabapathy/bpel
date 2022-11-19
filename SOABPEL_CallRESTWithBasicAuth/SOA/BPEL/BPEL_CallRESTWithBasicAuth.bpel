@@ -1,0 +1,107 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Sat Nov 19 13:25:06 IST 2022
+  Author:  Sabapathy
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_CallRESTWithBasicAuth"
+               targetNamespace="http://xmlns.oracle.com/SOASampleAppln/BPEL_CallRESTWithBasicAuth"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOASampleAppln/BPEL_CallRESTWithBasicAuth"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_CallRESTWithBasicAuth/CallCustomerREST">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOASampleAppln/BPEL_CallRESTWithBasicAuth" location="../WSDLs/BPEL_CallRESTWithBasicAuth.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_callrestwithbasicauth_client" partnerLinkType="client:BPEL_CallRESTWithBasicAuth" myRole="BPEL_CallRESTWithBasicAuthProvider"/>
+    <partnerLink name="CallCustomerREST" partnerLinkType="ns1:CallCustomerREST" partnerRole="CallCustomerRESTProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_CallRESTWithBasicAuthRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPEL_CallRESTWithBasicAuthResponseMessage"/>
+    <variable name="InvokeCustomerREST_getCustomer_InputVariable" messageType="ns1:Rest_EmptyMessage"/>
+    <variable name="InvokeCustomerREST_getCustomer_OutputVariable" messageType="ns1:getCustomer_outputMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_CallRESTWithBasicAuth.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpel_callrestwithbasicauth_client" portType="client:BPEL_CallRESTWithBasicAuth" operation="process" variable="inputVariable" createInstance="yes"/>
+    <invoke name="InvokeCustomerREST" partnerLink="CallCustomerREST"
+            portType="ns1:CallCustomerREST_ptt" operation="getCustomer"
+            inputVariable="InvokeCustomerREST_getCustomer_InputVariable"
+            outputVariable="InvokeCustomerREST_getCustomer_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <assign name="AssignResponse">
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/address/city</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:address/client:city</to>
+      </copy>
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/address/flatNo</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:address/client:flatNo</to>
+      </copy>
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/address/pin</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:address/client:pin</to>
+      </copy>
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/address/state</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:address/client:state</to>
+      </copy>
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/address/steet</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:address/client:steet</to>
+      </copy>
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/id</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:id</to>
+      </copy>
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/marital_status</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:marital_status</to>
+      </copy>
+      <copy>
+        <from>$InvokeCustomerREST_getCustomer_OutputVariable.reply/phone</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:customer/client:phone</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpel_callrestwithbasicauth_client" portType="client:BPEL_CallRESTWithBasicAuth" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>
