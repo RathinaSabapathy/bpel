@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd"
+            xmlns:tns="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+            targetNamespace="http://BPELSample.com/GetUserByIdREST_GetUserBId_request" elementFormDefault="qualified"
+            attributeFormDefault="unqualified" nxsd:encoding="US-ASCII">
+  <xsd:element name="GetUserByIdRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="id" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="GetUserByIdResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="name" type="xsd:string"/>
+        <xsd:element name="birthDate" type="xsd:string"/>
+        <xsd:element name="id" type="xsd:integer"/>
+        <xsd:element name="_links">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="all-users">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="href" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="GetUserByIdFault">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="errorcode"/>
+        <xsd:element name="message"/>
+        <xsd:element name="details"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:annotation>
+    <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+    <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+  </xsd:annotation>
+</xsd:schema>

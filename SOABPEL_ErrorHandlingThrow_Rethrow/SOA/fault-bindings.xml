@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faultPolicyBindings version="2.0.1" xmlns="http://schemas.oracle.com/bpel/faultpolicy">
+
+    <composite faultPolicy="UserServicePolicy"/>
+
+    <!--<component faultPolicy="UserServicePolicy">
+        <name>BPEL_EHThrowRethrow</name>
+    </component>-->
+
+    <reference faultPolicy="UserServicePolicy">
+        <name>GetUserByIdREST</name>
+    </reference>
+
+    <!--<service faultPolicy="UserServicePolicy">
+        <name>bpel_ehthrowrethrow_client_ep</name>
+    </service>-->
+</faultPolicyBindings>

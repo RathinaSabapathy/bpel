@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:tns="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+             xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="GetUserByIdREST">RestReference</doc>
+  <grammars>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:import namespace="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+                  schemaLocation="../Schemas/GetUserById_NXSD.xsd"/>
+    </xsd:schema>
+    <!--<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:include schemaLocation="../Schemas/GetUserById_NXSDResponse.xsd"/>
+    </xsd:schema>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:include schemaLocation="../Schemas/Fault_NXSD.xsd"/>
+    </xsd:schema>-->
+  </grammars>
+  <resources>
+    <resource path="/users/{id}">
+      <method name="GET" soa:wsdlOperation="GetUserBId">
+        <request soa:paramElement="pns:GetUserById"
+                 xmlns:pns="http://BPELSample.com/GetUserByIdREST_GetUserBId_request">
+          <param name="id" style="template" soa:expression="$msg.request/tns:id" type="xsd:string"/>
+<!--          <param name="id" style="template" soa:expression="$msg.request/tns:id" type="xsd:string"/>-->
+        </request>
+        <response status="200">
+          <ns0:representation mediaType="application/xml" element="test:GetUserByIdResponse" xmlns:test="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+                              xmlns:ns0="http://wadl.dev.java.net/2009/02"/>
+          <ns0:representation mediaType="application/json" element="test:GetUserByIdResponse" xmlns:test="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+                              xmlns:ns0="http://wadl.dev.java.net/2009/02"/>
+        </response>
+        <response status="400" soa:wsdlFaultName="RemoteFault">
+          <ns0:representation mediaType="application/xml" element="test:GetUserByIdFault" xmlns:test="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+                              xmlns:ns0="http://wadl.dev.java.net/2009/02"/>
+          <ns0:representation mediaType="application/json" element="test:GetUserByIdFault" xmlns:test="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+                              xmlns:ns0="http://wadl.dev.java.net/2009/02"/>
+        </response>
+      </method>
+    </resource>
+  </resources>
+</application>

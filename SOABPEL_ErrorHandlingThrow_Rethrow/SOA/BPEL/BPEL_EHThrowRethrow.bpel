@@ -1,0 +1,151 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Oct 27 12:51:34 IST 2022
+  Author:  Sabapathy
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_EHThrowRethrow"
+               targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ErrorHandling/BPEL_EHThrowRethrow"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ErrorHandling/BPEL_EHThrowRethrow"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ErrorHandlingThrow_Rethrow/GetUserByIdREST"
+         xmlns:ns2="http://BPELSample.com/GetUserByIdREST_GetUserBId_request"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ErrorHandling/BPEL_EHThrowRethrow" location="../WSDLs/BPEL_EHThrowRethrow.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_ehthrowrethrow_client" partnerLinkType="client:BPEL_EHThrowRethrow" myRole="BPEL_EHThrowRethrowProvider"/>
+    <partnerLink name="GetUserByIdREST" partnerLinkType="ns1:GetUserByIdREST" partnerRole="GetUserByIdRESTProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_EHThrowRethrowRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPEL_EHThrowRethrowResponseMessage"/>
+    <variable name="InvokeGetUserById_GetUserBId_InputVariable" messageType="ns1:GetUserBId_inputMessage"/>
+    <variable name="InvokeGetUserById_GetUserBId_OutputVariable" messageType="ns1:GetUserBId_outputMessage"/>
+    <variable name="ReplyWithFault_process_OutputVariable" messageType="client:BPEL_EHThrowRethrowResponseMessage"/>
+  </variables>
+  <faultHandlers>
+    <catch faultName="bpelx:remoteFault">
+      <sequence name="Sequence1">
+        <assign name="AssignRemoteFault">
+          <copy>
+            <from>'No User Found'</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyWithFault_process_OutputVariable.payload/client:name</to>
+          </copy>
+          <copy>
+            <from>concat(ora:getFaultAsString(), 'caught in Catch block')</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyWithFault_process_OutputVariable.payload/client:_links/client:all-users/client:href</to>
+          </copy>
+        </assign>
+        <reply name="ReplyWithFault" partnerLink="bpel_ehthrowrethrow_client"
+               variable="ReplyWithFault_process_OutputVariable" portType="client:BPEL_EHThrowRethrow"
+               operation="process"/>
+      </sequence>
+    </catch>
+    <catchAll>
+      <sequence name="Sequence2">
+        <assign name="AssignenericFault">
+          <copy>
+            <from>'No User Found'</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyWithFault_process_OutputVariable.payload/client:name</to>
+          </copy>
+          <copy>
+            <from>concat(ora:getFaultName(), 'Caught in CatchAll block')</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyWithFault_process_OutputVariable.payload/client:_links/client:all-users/client:href</to>
+          </copy>
+        </assign>
+        <reply name="ReplyFailure" partnerLink="bpel_ehthrowrethrow_client"
+               variable="ReplyWithFault_process_OutputVariable" portType="client:BPEL_EHThrowRethrow"
+               operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_EHThrowRethrow.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpel_ehthrowrethrow_client" portType="client:BPEL_EHThrowRethrow" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignGetUserByIdRequest">
+      <copy>
+        <from>$inputVariable.payload/client:input</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeGetUserById_GetUserBId_InputVariable.request/ns2:id</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeGetUserById" partnerLink="GetUserByIdREST"
+            portType="ns1:GetUserByIdREST_ptt" operation="GetUserBId"
+            inputVariable="InvokeGetUserById_GetUserBId_InputVariable"
+            outputVariable="InvokeGetUserById_GetUserBId_OutputVariable" bpelx:invokeAsDetail="no"/>
+    <if name="IfUserId101">
+      <documentation>
+        <![CDATA[IfUserIdis101]]>
+      </documentation>
+      <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeGetUserById_GetUserBId_OutputVariable.reply/ns2:id = 101</condition>
+      <throw name="ThrowRemoteException" faultName="bpelx:remoteFault"/>
+    </if>
+    <assign name="AssignGetUserByIdResponse">
+      <copy>
+        <from>$InvokeGetUserById_GetUserBId_OutputVariable.reply/ns2:name</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:name</to>
+      </copy>
+      <copy>
+        <from>$InvokeGetUserById_GetUserBId_OutputVariable.reply/ns2:birthDate</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:birthDate</to>
+      </copy>
+      <copy>
+        <from>$InvokeGetUserById_GetUserBId_OutputVariable.reply/ns2:id</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:id</to>
+      </copy>
+      <copy>
+        <from>$InvokeGetUserById_GetUserBId_OutputVariable.reply/ns2:_links/ns2:all-users/ns2:href</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:_links/client:all-users/client:href</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpel_ehthrowrethrow_client" portType="client:BPEL_EHThrowRethrow" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

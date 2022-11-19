@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc>/ns:composite/ns:wire/ns:target.uri[.='GetUserByIdREST']</loc>
+      <line>48</line>
+      <col>17</col>
+      <file>C:\Saba\workspace\osb\SOASampleAppln\SOABPEL_ErrorHandlingThrow_Rethrow\SOA\composite.xml</file>
+      <name>C:\Saba\workspace\osb\SOASampleAppln\SOABPEL_ErrorHandlingThrow_Rethrow\SOA\composite.xml</name>
+      <fix/>
+      <msg>Schema validation failed with exception "null"</msg>
+   </Fault>
+</Faults>

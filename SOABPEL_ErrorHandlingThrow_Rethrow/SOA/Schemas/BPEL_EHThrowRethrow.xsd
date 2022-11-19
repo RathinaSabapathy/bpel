@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.oracle.com/SOASampleAppln/SOABPEL_ErrorHandling/BPEL_EHThrowRethrow"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="input" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+              <complexType>
+              <sequence>
+                <element name="name" type="string"/>
+                <element name="birthDate" type="string"/>
+                <element name="id" type="integer"/>
+                <element name="_links">
+                  <complexType>
+                    <sequence>
+                      <element name="all-users">
+                        <complexType>
+                          <sequence>
+                            <element name="href" type="string"/>
+                          </sequence>
+                        </complexType>
+                      </element>
+                    </sequence>
+                  </complexType>
+                </element>
+              </sequence>
+            </complexType>
+	</element>
+        
+        
+</schema>
